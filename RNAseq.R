@@ -58,7 +58,7 @@ writexl::write_xlsx(diff.merge.result.sig, path = "diff.merge.result.sig.xlsx")
 library(ComplexHeatmap)
 library(circlize)
 log2TPM <- readRDS("log2TPM.rds")
-heatmapgenes <- read.table("/data/sde/heatmapGene.txt", header = T, stringsAsFactors = F, sep = "\t")
+heatmapgenes <- read.table("/data/heatmapGene.txt", header = T, stringsAsFactors = F, sep = "\t")
 
 # order columns
 log2TPM <- log2TPM[,c(11,12,3:4,7:8,9,10,1:2,5:6)]
