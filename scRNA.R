@@ -30,7 +30,7 @@ FunctionScDblFinder.RNA <- function(Seurat.object, clusters = NULL, samples = NU
 #### ---- 1.load data ---- ####
 samples <- c("KO_ovX3", "NT_ovX3")
 scRNA.list <- sapply(samples, function(x){
-  scRNA.data <- Read10X_h5(filename = paste0("/data/sdd/guochen/20230809_BRD9KO_CT2A_CD45_scRNA/CellRangerResults/", x, "/outs/CellBender/cellbender_output_file_filtered_seurat.h5"))
+  scRNA.data <- Read10X_h5(filename = paste0("/data/CellRangerResults/", x, "/outs/CellBender/cellbender_output_file_filtered_seurat.h5"))
   scRNA.data <- CreateSeuratObject(counts = scRNA.data, project = x, min.cells = 3, min.features = 200)
   scRNA.data[["mt_ratio_RNA"]] <- PercentageFeatureSet(scRNA.data, pattern = "^mt-")
   scRNA.data[["rp_ratio_RNA"]] <- PercentageFeatureSet(scRNA.data, pattern = "^Rpl|^Rps")
@@ -129,7 +129,7 @@ cellNumber <- as.data.frame(table(scRNA.pro@meta.data[,c("orig.ident")]))
 cellNumber <- rep(cellNumber$Freq, times = length(levels(scRNA.pro$cellType)))
 cellRatio$cellNumber <- cellNumber
 cellRatio$ratio <- round(cellRatio$Freq / cellRatio$cellNumber * 100, 2)
-# OV/NT
+# KO/NT
 OV.change <- cellRatio$ratio[seq(2, nrow(cellRatio), by = 2)] / cellRatio$ratio[seq(1, nrow(cellRatio), by = 2)]
 OV.change <- data.frame(cellType = cellRatio$cellType[seq(2, nrow(cellRatio), by = 2)], change = OV.change)
 OV.change$type <- "Increase"
@@ -192,7 +192,6 @@ cellNumber <- as.data.frame(table(scRNA.T@meta.data[,c("orig.ident")]))
 cellNumber <- rep(cellNumber$Freq, times = length(levels(scRNA.T$cellType)))
 cellRatio$cellNumber <- cellNumber
 cellRatio$ratio <- round(cellRatio$Freq / cellRatio$cellNumber * 100, 2)
-# OV/NT
 OV.change <- cellRatio$ratio[seq(2, nrow(cellRatio), by = 2)] / cellRatio$ratio[seq(1, nrow(cellRatio), by = 2)]
 OV.change <- data.frame(cellType = cellRatio$cellType[seq(2, nrow(cellRatio), by = 2)], change = OV.change)
 OV.change$type <- "Increase"
