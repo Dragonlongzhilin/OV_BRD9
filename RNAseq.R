@@ -54,21 +54,3 @@ diff.merge.result.sig <- lapply(diff.merge.result, function(x){
 diff.merge.result.sig <- unlist(diff.merge.result.sig, recursive = F)
 writexl::write_xlsx(diff.merge.result.sig, path = "diff.merge.result.sig.xlsx")
 
-#### Figure heatmap
-library(ComplexHeatmap)
-library(circlize)
-log2TPM <- readRDS("log2TPM.rds")
-heatmapgenes <- read.table("/data/heatmapGene.txt", header = T, stringsAsFactors = F, sep = "\t")
-
-# order columns
-log2TPM <- log2TPM[,c(11,12,3:4,7:8,9,10,1:2,5:6)]
-coldata <- coldata[c(11,12,3:4,7:8,9,10,1:2,5:6),,drop = F]
-
-col_split <- gsub("-.*", "", coldata$condition)
-column_ha <- HeatmapAnnotation(condition = coldata$condition, annotation_legend_param = list(legend_direction = "horizontal"), col = list(condition = c("OV-KO" = "#E64B35", "OV-NT" = "#00A087", "Mock-KO" = "#E18727", "Mock-NT" = "#3C5488")))
-
-idx <- match(heatmapgenes$Gene, rownames(log2TPM))
-row_split <- heatmapgenes$Type
-plot.data.TPM <- t(scale(t(log2TPM[idx,])))
-colnames(plot.data.TPM) <- c("NT-1", "NT-2", "KO-1-1", "KO-1-2", "KO-2-1", "KO-2-2", "NT-1", "NT-2", "KO-1-1", "KO-1-2", "KO-2-1", "KO-2-2")
-Heatmap(plot.data.TPM, name = "Scaled expression", cluster_columns = F, column_split = col_split, row_split = row_split, top_annotation = column_ha, width = unit(6, "cm"), row_names_gp = gpar(fontsize = 10), column_names_gp = gpar(fontsize = 10))
