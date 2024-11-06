@@ -1,1 +1,1 @@
-Genome-wide CRISPR Screen Identifies ncBAF Complex as a Key Modulator of Oncolytic Virus Resistance in Glioblastoma
+BRD9 inhibition overcomes oncolytic virus therapy resistance in glioblastoma
